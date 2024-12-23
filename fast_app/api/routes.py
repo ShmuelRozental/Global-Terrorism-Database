@@ -1,12 +1,17 @@
-from fastapi import APIRouter
-from api.database.init_db import get_db
-from api.utils.utils import serialize_doc
-from api.models.event import Event
+from fastapi import APIRouter, Depends
+from .repo import EventRepo
+from .database.init_db import get_db
 
 router = APIRouter()
 
+def get_event_repo(db=Depends(get_db)):
+    return EventRepo(db)  
+
 @router.get("/events")
-async def get_events():
-    db = get_db()
-    events = db.events.find()
-    return [serialize_doc(event) for event in events]
+async def get_events(event_repo: EventRepo = Depends(get_event_repo)):
+    events = await event_repo.get_events()  
+    return {"data": events}
+
+@router.get("/test_db")
+async def test_db(db=Depends(get_db)):
+    return {"status": "MongoDB connection successful!"}
