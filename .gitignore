@@ -5,4 +5,4 @@ etl/.env
 etl/data/
 fast_app/.env
 etl_1/.env
-      
+news_stream/.env
