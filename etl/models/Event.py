@@ -24,7 +24,8 @@ class Date(BaseModel):
 
 class Location(BaseModel):
     country: str
-    region: int
+    region_id: int
+    region: str
     city: Optional[str] = None
     lat: Optional[float] = None
     lon: Optional[float] = None

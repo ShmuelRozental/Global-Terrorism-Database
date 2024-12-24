@@ -28,7 +28,8 @@ def validate_events(data: List[dict]) -> List[EventModel]:
                 ),
                 location=Location(
                     country=row.get("country_txt"),
-                    region=row.get("region"),
+                    region_id=row.get("region"),
+                    region=row.get("region_txt"),
                     city=row.get("city"),
                     lat=row.get("latitude"),
                     lon=row.get("longitude")

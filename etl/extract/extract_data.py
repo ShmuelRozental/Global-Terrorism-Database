@@ -12,7 +12,7 @@ df['summary'] = df['summary'].fillna('Unknown')
 
 selected_columns = [
     "eventid", "iyear", "imonth", "iday",
-    "country_txt", "region", "city", "latitude", "longitude",
+    "country_txt", "region","region_txt", "city", "latitude", "longitude",
     "attacktype1", "attacktype1_txt",
     "targtype1", "targtype1_txt",
     "weaptype1", "weaptype1_txt",
