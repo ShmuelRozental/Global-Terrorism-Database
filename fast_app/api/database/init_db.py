@@ -6,9 +6,9 @@ from fastapi import FastAPI
 from typing import AsyncGenerator
 from contextlib import asynccontextmanager
 
-from fast_app.api.models.event import EventModel
+from api.models.event import EventModel
 
-# טוען את משתני הסביבה מקובץ .env
+
 load_dotenv()
 
 DATABASE_URL = os.getenv("MONGO_URI")
@@ -25,7 +25,7 @@ mongodb = MongoDB()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     try:
-        # אם הלקוח לא אתחל, נדפיס הודעה ונתחיל להתחבר
+
         if not DATABASE_URL:
             raise ValueError("MONGO_URI is not set in environment variables.")
 
@@ -33,9 +33,9 @@ async def lifespan(app: FastAPI):
         mongodb.client = AsyncIOMotorClient(DATABASE_URL)
         print(f"Connected to MongoDB at {DATABASE_URL}")
 
-        # לוודא שהחיבור עובד עם בדיקה
+
         db = mongodb.client[DATABASE_NAME]
-        await db.command('ping')  # בדיקה אם החיבור תקין
+        await db.command('ping')  
         print(f"Database '{DATABASE_NAME}' is ready.")
         await init_beanie(db, document_models=[EventModel])
         
@@ -44,7 +44,6 @@ async def lifespan(app: FastAPI):
         print(f"Error connecting to MongoDB: {e}")
         raise e
     finally:
-        # סגירת החיבור בסיום
         if mongodb.client:
             mongodb.client.close()
             print("MongoDB connection closed")
