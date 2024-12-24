@@ -1,17 +1,32 @@
+from typing import List
 from fastapi import APIRouter, Depends
+from fastapi.responses import JSONResponse, HTMLResponse
+from fast_app.api.EventService import EventService
 from .repo import EventRepo
 from .database.init_db import get_db
 
 router = APIRouter()
 
+
 def get_event_repo(db=Depends(get_db)):
-    return EventRepo(db)  
+    return EventRepo(db)
 
-@router.get("/events")
-async def get_events(event_repo: EventRepo = Depends(get_event_repo)):
-    events = await event_repo.get_events()  
-    return {"data": events}
+def get_event_service(event_repo: EventRepo = Depends(get_event_repo)):
+    return EventService(event_repo)
 
-@router.get("/test_db")
-async def test_db(db=Depends(get_db)):
-    return {"status": "MongoDB connection successful!"}
+@router.get("/events", response_model=List[dict])
+async def get_top_events_by_casualties(top_n: int = 5, event_repo: EventRepo = Depends(get_event_repo)):
+    try:
+        events = await event_repo.fetch_top_events_by_casualties(top_n=top_n)
+        return events
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"message": str(e)})
+
+
+@router.get("/events/top_events_map", response_class=HTMLResponse)
+async def get_top_events_map(top_n: int = 0, event_service: EventService = Depends(get_event_service)):
+    try:
+        event_map = await event_service.get_top_events_map(top_n if top_n > 0 else None)
+        return event_map._repr_html_()
+    except Exception as e:
+        return HTMLResponse(status_code=500, content=f"<h1>Error</h1><p>{str(e)}</p>")
