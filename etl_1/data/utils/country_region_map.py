@@ -1,0 +1,22 @@
+country_region_map = {
+    "United Kingdom": "Western Europe",
+    "Sierra Leone": "Sub-Saharan Africa",
+    "Spain": "Western Europe",
+    "South Korea": "East Asia",
+    "Georgia": "Central Asia",
+    "Ivory Coast": "Sub-Saharan Africa",
+    "Bosnia-Herzegovina": "Eastern Europe",
+    "India": "South Asia",
+    "Morocco": "Middle East & North Africa",
+    "Costa Rica": "Central America & Caribbean",
+    "Ecuador": "South America",
+    "Suriname": "South America",
+    "Guatemala": "Central America & Caribbean",
+    "Iran": "Middle East & North Africa",
+    "New Zealand": "Australasia & Oceania",
+    "Dominican Republic": "Central America & Caribbean",
+    "Australia": "Australasia & Oceania",
+    "Chile": "South America",
+    "Afghanistan": "South Asia",
+    "Bulgaria": "Eastern Europe"
+}
