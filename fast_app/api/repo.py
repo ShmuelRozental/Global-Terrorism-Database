@@ -1,6 +1,6 @@
 from typing import List
 from .models.event import EventModel
-from .utils.utils import serialize_doc
+from .utils.serialization_utils import serialize_doc
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 class EventRepo:
