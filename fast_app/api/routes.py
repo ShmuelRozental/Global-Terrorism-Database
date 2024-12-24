@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse, HTMLResponse
-from fast_app.api.EventService import EventService
+from api.EventService import EventService
 from .repo import EventRepo
 from .database.init_db import get_db
 
