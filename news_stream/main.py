@@ -1,49 +1,41 @@
-import requests
-import time
-import os
-from dotenv import load_dotenv
+from classifier import classify_news_message, classify_event_by_date
+from groq_client import extract_terrorism_event_details
+import json
 
-load_dotenv()
-API_KEY = os.getenv("NEWS_API_KEY")
+from news import get_news
 
-url = "https://eventregistry.org/api/v1/article/getArticles"
-params ={
-    "action": "getArticles",
-    "keyword": "terror attack",
-    "ignoreSourceGroupUri": "paywall/paywalled_sources",
-    "articlesPage": 1,
-    "articlesCount": 1,
-    "articlesSortBy": "socialScore",
-    "articlesSortByAsc": False,
-    "dataType": ["news", "pr"],
-    "forceMaxDataTimeWindow": 31,
-    "resultType": "articles",
-    "apiKey": API_KEY,
-}
-def get_news():
-    response = requests.get(url, params=params)
-    print(f"HTTP Status Code: {response.status_code}")
-    print(f"Response content: {response.text}")  # הדפסת תוכן התגובה
-    
-    if response.status_code == 200:
-        try:
-            data = response.json()
-            if "articles" in data:
-                return data["articles"]
-            else:
-                print(f"Error: {data.get('message', 'No articles found')}")
-        except ValueError:
-            print("Failed to decode JSON")
-    else:
-        print(f"Request failed with status code {response.status_code}")
-    return []
-
-
-
-
-while True:
+def process_news_articles():
     articles = get_news()
+    processed_articles = []
+
     for article in articles:
-        print(article)
-    time.sleep(120)
-  
+        title = article.get("title", "No Title")
+        body = article.get("body", "")
+        date = article.get("date", "")
+
+        category = classify_news_message(body)
+        date_category = classify_event_by_date(date)
+        event_details = extract_terrorism_event_details(title, body)
+
+        processed_articles.append({
+            "title": title,
+            "url": article.get("url", "No URL"),
+            "category": category,
+            "date_category": date_category,
+            "location": event_details.get("location", {}),
+            "target_type": event_details.get("target_type", "null"),
+            "attack_type": event_details.get("attack_type", "null"),
+            "weapon_type": event_details.get("weapon_type", "null"),
+            "terrorist_group": event_details.get("terrorist_group", "null"),
+            "number_of_terrorists": event_details.get("number_of_terrorists", "null"),
+            "casualties": event_details.get("casualties", {}),
+            "summary": event_details.get("summary", "null"),
+            "date": event_details.get("date", "null")
+        })
+
+    return processed_articles
+
+if __name__ == "__main__":
+    results = process_news_articles()
+    for result in results:
+        print(json.dumps(result, indent=4))
