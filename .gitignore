@@ -2,3 +2,5 @@ etl/data/globalterrorismdb_0718dist.csv
 .venv/
 __pycache__/
 etl/.env
+etl/data/
+ fast_app/.env
