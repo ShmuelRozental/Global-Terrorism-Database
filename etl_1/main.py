@@ -3,7 +3,9 @@ import asyncio
 from typing import List
 from dotenv import load_dotenv
 import os
-from extract.extract_data import validated_data
+from extract.extract import transformed_data
+
+
 
 load_dotenv()
 
@@ -23,4 +25,5 @@ async def insert_data(validated_data: List[dict]):
         print("No valid documents to insert.")
 
 loop = asyncio.get_event_loop()
-loop.run_until_complete(insert_data(validated_data))
+loop.run_until_complete(insert_data(transformed_data))
+
