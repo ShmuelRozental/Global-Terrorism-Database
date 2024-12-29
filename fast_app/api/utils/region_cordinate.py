@@ -12,3 +12,7 @@ REGION_COORDINATES = {
     "South Asia": {"lat": 28.613939, "lon": 77.209023},  # New Delhi, India
     "Central Asia": {"lat": 41.299496, "lon": 69.240073},  # Tashkent, Uzbekistan
 }
+
+
+print (REGION_COORDINATES["Australasia & Oceania"]["lat"])
+print (REGION_COORDINATES.get("Australasia & Oceania").get("lat"))
