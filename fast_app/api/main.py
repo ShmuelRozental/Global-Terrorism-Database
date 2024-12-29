@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends
 from fastapi.responses import ORJSONResponse
-from api.database.init_db import lifespan
+from fast_app.api.database.init_db import lifespan
 from .routes import router
 from dotenv import load_dotenv
 

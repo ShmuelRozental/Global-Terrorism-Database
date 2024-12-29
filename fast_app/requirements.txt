@@ -6,3 +6,4 @@ python-dotenv
 beanie
 folium
 orjson
+matplotlib
