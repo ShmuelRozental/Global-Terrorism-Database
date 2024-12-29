@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from typing import AsyncGenerator
 from contextlib import asynccontextmanager
 
-from api.models.event import EventModel
+from fast_app.api.models.event import EventModel
 
 
 load_dotenv()
