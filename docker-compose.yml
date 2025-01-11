@@ -1,25 +1,60 @@
-version: '3.8'
-
 services:
-  fastapi:
-    build: ./fast_app
-    container_name: fastapi_app
-    ports:
-      - "8000:8000"
-    environment:
-      - MONGO_URI=mongodb://mongodb:27017
-      - DATABASE_NAME=global_terrorism_db
-    networks:
-      - app_network  
+  # fastapi:
+  #   build: ./fast_app
+  #   container_name: fastapi_app
+  #   ports:
+  #     - "8000:8000"
+  #   environment:
+  #     - MONGO_URI=mongodb://mongodb:27018
+  #     - DATABASE_NAME=global_terrorism_db
+  #   networks:
+  #     - app_network  
+
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:8.10.1
+  #   container_name: elasticsearch
+  #   environment:
+  #     - discovery.type=single-node
+  #     - xpack.security.enabled=false
+  #   ports:
+  #     - "9200:9200"
+  #     - "9300:9300"
+  #   volumes:
+  #     - es_data:/usr/share/elasticsearch/data
+
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana:8.10.1
+  #   container_name: kibana
+  #   environment:
+  #     - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+  #   ports:
+  #     - "5601:5601"
+  #   depends_on:
+  #     - elasticsearch
 
   mongodb:
     image: mongo
     container_name: mongodb
     ports:
-      - "27018:27017"  
+      - "27018:27017"
     networks:
       - app_network 
+
+  # mongo-connector:
+  #   image: docker.elastic.co/logstash/logstash:8.10.1
+  #   container_name: mongo-connector
+  #   environment:
+  #     - LOGSTASH_ELASTICSEARCH_URL=http://elasticsearch:9200
+  #     - LOGSTASH_MONGO_URI=mongodb://mongodb:27017
+  #   volumes:
+  #     - ./pipeline/mongo.conf:/usr/share/logstash/pipeline/logstash.conf
+  #   depends_on:
+  #     - elasticsearch
+  #     - mongodb  
 
 networks:
   app_network:  
     driver: bridge
+
+# volumes:
+#   es_data:

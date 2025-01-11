@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from beanie import Document, PydanticObjectId
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import List, Optional
 from calendar import monthrange
 
 class Date(BaseModel):
@@ -66,4 +66,7 @@ class EventModel(Document,BaseModel):
             ["attack_type.attack_type_name"],  
             ["weapon_type.weapon_type_name"],  
         ]
+
+
+
 
